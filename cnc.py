@@ -13,10 +13,7 @@ import sys
 #inputfile
 inFile = sys.argv[1]
 with open(inFile, 'r') as f:
-    gcode = f.read()
-
-print(gcode)
-print(type(gcode))
+    gcode_Lines = f.readlines()
 
 prorgammStatus = False 
 cmdDict = {}
@@ -67,13 +64,15 @@ def getLine(gcode_line):
     param gcode_line: a string, containing 1 gcode line in a programme
     return: list, including words in gcode line separating by a space
     '''
+    return 
 
-class MachineClient:
+#class MachineClient:
 
 
 def main():
-    #getting lines
-    gcode_Lines = f.readlines() #a list of gcode lines 
+    #prepping
     for gcode_Line in gcode_Lines:
         type_ = filtering(gcode_Line)
+        print(type_)
 
+main()
