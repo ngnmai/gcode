@@ -47,7 +47,7 @@ def endingProrgamm():
 def commenting(cmt):
     cmt = cmt.replace('(', '')
     cmt = cmt.replace(')', '')
-    return str("COMMENT: " + cmt + "\n")
+    print(str("COMMENT: " + cmt + "\n")) 
 
 def programmInfo(no):
     '''
@@ -61,19 +61,13 @@ def programmInfo(no):
 
 def preppingLine(line):
     cmd_s = line.split()
-    index = int(cmd_s[0][1:])
+    index = cmd_s[0]
     commands = cmd_s[1:]
     return index, commands
 
-def getLine(gcode_line):
-    '''
-    param gcode_line: a string, containing 1 gcode line in a programme
-    return: list, including words in gcode line separating by a space
-    '''
-    return 
 
 class MachineClient:
-    def _init_(self,name):
+    def __init__(self,name):
         self.name_prog = name
         self.x_cor = 0
         self.y_cor = 0
@@ -91,89 +85,93 @@ class MachineClient:
         Moving the machine back to home position
         '''
         self.x_cor, self.y_cor, self.z_cor = 0, 0, 0
-        print("Moving to home.\n")
+        return("Moving to home.\n")
 
-    def set_work_offset(self):
-        print("Moving to offset coordinates. Setting this as (0,0,0).\n")
+    def set_work_offset(self, flag = True):
+        if flag == True:
+            return("Moving to offset coordinates. Setting this as (0,0,0).\n")
 
-    def set_positioning_method(self, flag):
-        if flag == 1:
-            print("Setting positioning method as Increment.\n")
-        else: 
-            print("Setting positioning method as Absolute.\n")
+    def set_positioning_method(self, type, flag = True):
+        if flag == True:
+            if type == 1:
+                return("Setting positioning method as Increment.\n")
+            else: 
+                return("Setting positioning method as Absolute.\n")
 
-    def set_prime_coordinate(self, xprime = 0, yprime = 0, zprime = 0):
+    def set_prime_coordinate_x(self, xprime):
         '''
         Setting the next destination coordinates
         '''
-        self.x_prime, self.y_prime, self.z_prime = xprime, yprime, zprime
+        self.x_prime= xprime
+        self.y_prime = self.y_cor
+        self.z_prime = self.z_cor
+
+    
+    def set_prime_coordinate_y(self, yprime):
+        '''
+        Setting the next destination coordinates
+        '''
+        self.y_prime= yprime
+        self.x_prime = self.x_cor
+        self.z_prime = self.z_cor
+
+    
+    def set_prime_coordinate_z(self, zprime):
+        '''
+        Setting the next destination coordinates
+        '''
+        self.z_prime= zprime
+        self.x_prime = self.x_cor
+        self.y_prime = self.y_cor
+
 
     def move(self):
         '''
         Move spindle to given coordinates
         '''
         self.x_cor, self.y_cor, self.z_cor = self.x_prime, self.y_prime, self.z_prime
-        print("Moving to X={:.3f}, Y={:.3f}, Z={:.3f} [mm]\n".format(self.x_cor, self.y_cor, self.z_cor))
+        return("Moving to X={:.3f}, Y={:.3f}, Z={:.3f} [mm]\n".format(self.x_cor, self.y_cor, self.z_cor))
 
     def move_rapid(self):
         '''
         Move as fast as possible to a specified coordinate position
         '''
         self.x_cor, self.y_cor, self.z_cor = self.x_prime, self.y_prime, self.z_prime
-        print("Moving rapidly to X={:.3f}, Y={:.3f}, Z={:.3f} [mm]\n".format(self.x_cor, self.y_cor, self.z_cor))
-
-    def move_x(self, value):
-        '''
-        Move spindle to given X_coordinate. 
-        Unchanged Y_Coordinate and Z_Coordinate
-        '''
-        self.x_cor = value 
-        print("Moving X to {:.3f} [mm].".format(value))
-    
-    def move_y(self, value):
-        '''
-        Move spindle to given Y_coordinate. 
-        Unchanged X_Coordinate and Z_Coordinate
-        '''
-        self.y_cor = value 
-        print("Moving Y to {:.3f} [mm].".format(value))
-
-    def move_z(self, value):
-        '''
-        Move spindle to given Z_coordinate. 
-        Unchanged X_Coordinate and Y_Coordinate
-        '''
-        self.z_cor = value 
-        print("Moving Z to {:.3f} [mm].".format(value))
+        return("Moving rapidly to X={:.3f}, Y={:.3f}, Z={:.3f} [mm]\n".format(self.x_cor, self.y_cor, self.z_cor))
     
     def set_feed_rate(self, value):
         self.feed_rate = value
-        print("Using feed rate {} [mm/s].\n".format(value))
+        return("Using feed rate {} [mm/s].\n".format(value))
     
-    def set_spindle(self):
-        print("Spindle on Clockwise\n")
+    def set_spindle(self, flag = True):
+        if flag == True:
+            return("Spindle on Clockwise\n")
     
-    def stop_spindle(self):
-        self.spindle_speed = 0
-        print("Spindle stop\n")
+    def stop_spindle(self, flag = True):
+        if flag == True:
+            self.spindle_speed = 0
+            return("Spindle stop\n")
 
     def set_spindle_speed(self, value):
         self.spindle_speed = value
-        print("Using spindle speed {} [mm/s].\n".format(value))
+        return("Using spindle speed {} [mm/s].\n".format(value))
     
-    def set_tool_name(self, tool_name):
-        self.tool = tool_name
+    def set_tool_name(self, tool_name, flag = True):
+        if flag == True:
+            self.tool = tool_name
 
-    def change_tool(self):
-        print("Changing tool '{:.s}'.\n".format(self.tool))
+    def change_tool(self, flag = True):
+        if flag == True:
+            return("Changing tool '{}'.\n".format(self.tool))
     
     def coolant_on(self):
         self.coolant_status = True
-        print("Coolant turned on.\n")
+        return("Coolant turned on.\n")
 
-    def coolant_off(self):
-        self.coolant_status = False
-        print("Coolant turn off.\n")
+    def coolant_off(self, flag = True):
+        if flag == True:
+            self.coolant_status = False
+            return("Coolant turn off.\n")
 
     def creating_dict_forMC(self):
         gcDict ={'T': {1 : self.set_tool_name(1)},
@@ -190,8 +188,7 @@ def main():
     #prepping
     for gcode_Line in gcode_Lines:
         type_ = filtering(gcode_Line)
-        print(type_)
-        actionList = {}
+        actionList = []
         if type_ == 0:
             pass
         if type_ == 1:
@@ -203,34 +200,40 @@ def main():
             gCode_Dict = MC.creating_dict_forMC()
         if type_ == 3: 
             index, cmds = preppingLine(gcode_Line)
+            print(index + "\n")
             if index == "N1":
                 print("Initialising the machine.\n")
             else:
                 for cmd in cmds:
                     indexLetter = cmd[0]
-                    indexNum = int(cmd[1:])
+                    indexNum = float(cmd[1:])
                     if indexLetter not in gCode_Dict.keys():
                         if indexLetter == 'S':
-                            MC.set_spindle_speed(indexNum)
+                            print(MC.set_spindle_speed(indexNum))
                         if indexLetter == 'F':
-                            MC.set_feed_rate(indexNum)
+                            print(MC.set_feed_rate(indexNum))
                         if indexLetter == 'X':
-                            MC.x_prime = indexNum
+                            MC.set_prime_coordinate_x(indexNum)
                         if index == 'Y':
-                            MC.y_prime = indexNum
+                            MC.set_prime_coordinate_y(indexNum)
                         if indexLetter == 'Z':
-                            MC.z_prime = indexNum
+                            MC.set_prime_coordinate_z(indexNum)
                     else:
                         cmd_Category = gCode_Dict[indexLetter]
-                        if indexNum not in cmd_Category.keys():
+                        if int(indexNum) not in cmd_Category.keys():
                             if indexNum == 28:
-                                MC.home()
+                               print(MC.home())
                             if indexNum == 1 or indexNum == 0:
                                 actionList.append(indexNum)
-                if actionList[0] == 1:
-                    MC.move_rapid()
-                if actionList[0] == 0:
-                    MC.move()
+                        else:
+                            output = cmd_Category[indexNum]
+                            if output != None:
+                                print(output)
+                if len(actionList) != 0:
+                    if actionList[0] == 1:
+                        print(MC.move_rapid())
+                    if actionList[0] == 0:
+                        print(MC.move())
         print()
     endingProrgamm()
 
