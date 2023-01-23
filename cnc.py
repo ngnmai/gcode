@@ -47,7 +47,7 @@ def endingProrgamm():
 def commenting(cmt):
     cmt = cmt.replace('(', '')
     cmt = cmt.replace(')', '')
-    print(str("COMMENT: " + cmt + "\n")) 
+    print("COMMENT: " + cmt + "\n")
 
 def programmInfo(no):
     '''
@@ -72,9 +72,6 @@ class MachineClient:
         self.x_cor = 0
         self.y_cor = 0
         self.z_cor = 0
-        self.x_prime = 0
-        self.y_prime = 0
-        self.z_prime = 0
         self.tool = None
         self.feed_rate = 0
         self.spindle_speed = 0
@@ -102,41 +99,30 @@ class MachineClient:
         '''
         Setting the next destination coordinates
         '''
-        self.x_prime= xprime
-        self.y_prime = self.y_cor
-        self.z_prime = self.z_cor
+        self.x_cor= xprime
 
-    
     def set_prime_coordinate_y(self, yprime):
         '''
         Setting the next destination coordinates
         '''
-        self.y_prime= yprime
-        self.x_prime = self.x_cor
-        self.z_prime = self.z_cor
-
+        self.y_cor= yprime
     
     def set_prime_coordinate_z(self, zprime):
         '''
         Setting the next destination coordinates
         '''
-        self.z_prime= zprime
-        self.x_prime = self.x_cor
-        self.y_prime = self.y_cor
-
+        self.z_cor= zprime
 
     def move(self):
         '''
         Move spindle to given coordinates
         '''
-        self.x_cor, self.y_cor, self.z_cor = self.x_prime, self.y_prime, self.z_prime
         return("Moving to X={:.3f}, Y={:.3f}, Z={:.3f} [mm]\n".format(self.x_cor, self.y_cor, self.z_cor))
 
     def move_rapid(self):
         '''
         Move as fast as possible to a specified coordinate position
         '''
-        self.x_cor, self.y_cor, self.z_cor = self.x_prime, self.y_prime, self.z_prime
         return("Moving rapidly to X={:.3f}, Y={:.3f}, Z={:.3f} [mm]\n".format(self.x_cor, self.y_cor, self.z_cor))
     
     def set_feed_rate(self, value):
@@ -214,7 +200,7 @@ def main():
                             print(MC.set_feed_rate(indexNum))
                         if indexLetter == 'X':
                             MC.set_prime_coordinate_x(indexNum)
-                        if index == 'Y':
+                        if indexLetter == 'Y':
                             MC.set_prime_coordinate_y(indexNum)
                         if indexLetter == 'Z':
                             MC.set_prime_coordinate_z(indexNum)
@@ -230,11 +216,10 @@ def main():
                             if output != None:
                                 print(output)
                 if len(actionList) != 0:
-                    if actionList[0] == 1:
-                        print(MC.move_rapid())
                     if actionList[0] == 0:
+                        print(MC.move_rapid())
+                    if actionList[0] == 1:
                         print(MC.move())
-        print()
     endingProrgamm()
 
 main()
