@@ -232,7 +232,7 @@ def main():
         #in gcode: o000x - Programm number 
         if type_ == 2: 
             prog_num, gcode_num = programmInfo(gcode_Line)
-            startingProgramm(True) #updating the status of the programm
+            startingProgramm(prog_num) #updating the status of the programm
             MC = MachineClient(gcode_num)
             gCode_Dict = MC.creating_dict_forMC()
 
